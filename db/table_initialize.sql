@@ -1,3 +1,4 @@
+DROP TABLE stats IF EXISTS;
 CREATE TABLE stats (
     id integer primary key,
     day varchar(8),
@@ -12,6 +13,7 @@ CREATE TABLE stats (
     untranslated integer
 );
 
+DROP TABLE projects IF EXISTS;
 CREATE TABLE projects (
     project_id text primary key,
     project_name text
