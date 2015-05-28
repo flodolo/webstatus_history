@@ -1,0 +1,12 @@
+#graphdiv {
+    min-width: 940px;
+    min-height: 600px;
+}
+
+#graphdiv .dygraph-legend > span {
+    display: none;
+}
+
+#graphdiv .dygraph-legend > span.highlight {
+    display: inline;
+}
