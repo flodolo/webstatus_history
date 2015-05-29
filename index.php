@@ -3,6 +3,7 @@ date_default_timezone_set('Europe/Rome');
 
 $requested_locale = isset($_REQUEST['locale']) ? $_REQUEST['locale'] : '';
 $requested_product = isset($_REQUEST['product']) ? $_REQUEST['product'] : '';
+$minimal_view = isset($_REQUEST['minimal']) ? true : false;
 
 if ($requested_product == 'all' && $requested_locale == 'all') {
     // All locales for all products is not supported, fall back to en-US for all products
@@ -35,10 +36,30 @@ if (! file_exists($csv_filename)) {
     exec("python scripts/extract_data.py {$requested_locale} {$requested_product} > {$csv_filename}");
 }
 
-// First line of the CVS file contains data series names, strip "Date" (first column)
-$csv_content = file($csv_filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-$data_series = split(',', $csv_content[0]);
-unset($data_series[0]);
+$html_output = "<div class='container'>\n";
+if (! $minimal_view) {
+    $html_output .= "\t\t<h1>{$page_title}</h1>\n";
+}
+$html_output .= "\t\t<div id='graphdiv'></div>\n";
+if (! $minimal_view) {
+    // First line of the CVS file contains data series names, strip "Date" (first column)
+    $csv_content = file($csv_filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $data_series = split(',', $csv_content[0]);
+    unset($data_series[0]);
+
+    $html_output .= "\t\t<h2>Display data series</h2>\n" .
+                    "\t\t<form class='data_series'>\n";
+    foreach ($data_series as $index => $series) {
+        $id = $index - 1;
+        $html_output .= "\t\t\t<input type='checkbox' id='{$id}' class='data_filter' checked='checked' /><label for='{$id}'>{$series}</label><br/>\n";
+    }
+    $html_output .= "\t\t</form>
+        <form class='main_buttons'>
+            <input type='button' class='btn btn-default' id='btn_selectall' value='Select All' />
+            <input type='button' class='btn btn-default' id='btn_deselectall' value='Deselect All' />
+        </form>\n";
+}
+$html_output .= "\t</div>\n";
 ?>
 <!doctype html>
 <html>
@@ -52,23 +73,7 @@ unset($data_series[0]);
     <script src="assets/js/dygraph-combined.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1><?=$page_title?></h1>
-        <div id="graphdiv"></div>
-        <h2>Display data series</h2>
-        <form class="data_series">
-<?php
-    foreach ($data_series as $index => $series) {
-        $id = $index - 1;
-        echo "<input type='checkbox' id='{$id}' class='data_filter' checked='checked' /><label for='{$id}'>{$series}</label><br/>";
-    }
-?>
-        </form>
-        <form class="main_buttons">
-            <input type="button" class="btn btn-default" id="btn_selectall" value="Select All" />
-            <input type="button" class="btn btn-default" id="btn_deselectall" value="Deselect All" />
-        </form>
-    </div>
+    <?=$html_output?>
     <script type="text/javascript">
     chart = new Dygraph(
         document.getElementById('graphdiv'),
