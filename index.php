@@ -10,22 +10,32 @@ if ($requested_product == 'all' && $requested_locale == 'all') {
     $requested_locale = 'en-US';
 }
 
-$page_title = "Historical Web Status - ";
 if ($requested_product == '' && $requested_locale == '') {
     // No parameters, fall back to en-US for all products
     $requested_locale = 'en-US';
     $requested_product = 'all';
-    $page_title .= 'en-US';
+    $page_title = 'Historical Web Status (en-US)';
 } else {
-    if ($requested_product == '') {
-        // One locale for all products
-        $requested_product = 'all';
-        $page_title .= $requested_locale;
-    }
     if ($requested_locale == '') {
         // One product for all locales
         $requested_locale = 'all';
-        $page_title .= $requested_product;
+        $page_title = "Historical Web Status ({$requested_product})";
+    } else {
+        if ($requested_product == '') {
+            // One locale for all products
+            $requested_product = 'all';
+            $page_title = "Historical Web Status ({$requested_locale})";
+        } else {
+            $page_title = "Historical Web Status (";
+            if ($requested_product == 'all') {
+                $page_title .= "{$requested_locale})";
+            } elseif ($requested_locale == 'all') {
+                $page_title .= "{$requested_product})";
+            } else {
+                $page_title .= "{$requested_product}, {$requested_locale})";
+            }
+
+        }
     }
 }
 
