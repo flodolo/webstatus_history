@@ -4,10 +4,14 @@ MAIN_FOLDER=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 cd $MAIN_FOLDER/..
 # Empty cache
-rm cache/*.csv
+echo "---------------------"
+echo "Clean up cache folder"
+rm -f cache/*.csv
 
 # Update repository
+echo "Update Git repository"
 git pull
 
 # Update database
+echo "Import data"
 ./scripts/import.py

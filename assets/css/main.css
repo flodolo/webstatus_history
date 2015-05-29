@@ -21,3 +21,7 @@ label {
     -moz-columns: 4;
     -webkit-columns: 4;
 }
+
+.main_buttons {
+    margin-top: 30px;
+}

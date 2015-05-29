@@ -64,7 +64,7 @@ unset($data_series[0]);
     }
 ?>
         </form>
-        <form>
+        <form class="main_buttons">
             <input type="button" class="btn btn-default" id="btn_selectall" value="Select All" />
             <input type="button" class="btn btn-default" id="btn_deselectall" value="Deselect All" />
         </form>
