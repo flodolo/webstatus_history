@@ -44,7 +44,13 @@ def main():
     project_names.sort()
 
     # Store all available dates
-    cursor.execute("SELECT DISTINCT day FROM stats")
+    if args.locale == "all":
+        cursor.execute("SELECT DISTINCT day FROM stats")
+    else:
+        cursor.execute(
+            "SELECT DISTINCT day FROM stats WHERE locale=?",
+            (args.locale,)
+        )
     data = cursor.fetchall()
     available_dates = []
     for row in data:
@@ -69,7 +75,7 @@ def main():
     if args.project_id != "all" and args.locale != "all":
         # Only one project for one locale
         if args.project_id not in available_projects:
-            # This project doesn"t exist
+            # This project doesn"t exist, quit
             sys.exit(1)
         else:
             cursor.execute(
@@ -77,7 +83,7 @@ def main():
                 (args.locale, args.project_id)
             )
     else:
-        # Both arguments cannot be set to "all"
+        # Note that both arguments cannot be set to "all"
         if args.project_id == "all":
             # All projects for this locale
             cursor.execute(
@@ -96,7 +102,11 @@ def main():
     if data is not None:
         for row in data:
             project_name = available_projects[row["project_id"]]
-            output_data[row["day"]][row["locale"]][project_name] = row["untranslated"] + row["missing"]
+            day = row["day"]
+            locale = row["locale"]
+            missing = row["missing"]
+            untranslated = row["untranslated"]
+            output_data[day][locale][project_name] = missing + untranslated
 
     if all_locales:
         csv_header = "Date,"
@@ -106,7 +116,10 @@ def main():
             csv_data = day + ","
             for locale in available_locales:
                 project_name = available_projects[args.project_id]
-                csv_data += str(output_data[day][locale][project_name]) + ","
+                if project_name in output_data[day][locale]:
+                    csv_data += str(output_data[day][locale][project_name]) + ","
+                else:
+                    csv_data += "0,"
             print csv_data[:-1]
     else:
         csv_header = "Date,"
@@ -118,6 +131,7 @@ def main():
                 if project in output_data[day][args.locale]:
                     csv_data += str(output_data[day][args.locale][project]) + ","
                 else:
+                    # Project didn't exist at the time for this locale
                     csv_data += "0,"
             print csv_data[:-1]
 
