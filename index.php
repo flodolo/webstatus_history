@@ -34,7 +34,6 @@ if ($requested_product == '' && $requested_locale == '') {
             } else {
                 $page_title .= "{$requested_product}, {$requested_locale})";
             }
-
         }
     }
 }
@@ -54,7 +53,7 @@ $html_output .= "\t\t<div id='graphdiv'></div>\n";
 if (! $minimal_view) {
     // First line of the CVS file contains data series names, strip "Date" (first column)
     $csv_content = file($csv_filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $data_series = split(',', $csv_content[0]);
+    $data_series = explode(',', $csv_content[0]);
     unset($data_series[0]);
 
     $html_output .= "\t\t<h2>Display data series</h2>\n" .
