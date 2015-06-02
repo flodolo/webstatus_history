@@ -7,7 +7,9 @@ cd $MAIN_FOLDER/..
 git pull
 
 DAY=$(date +"%Y%m%d")
-cp db/webstatus.db db/archive.db
-git add db/archive.db
+# Remove previous archive.zip, create new one and commit it
+rm -f db/archive.zip
+zip -j db/archive.zip db/webstatus.db
+git add db/archive.zip
 git commit -m "Update data ($DAY)"
 git push

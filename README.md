@@ -11,7 +11,7 @@ Script expects a SQLite database in `db/webstatus.db`. You can either create one
 sqlite3 webstatus.db < table_initialize.sql
 ```
 
-Or copy `archive.db` as `webstatus.db`.
+Or unzip `archive.zip` (it will create `webstatus.db` with actual historical data).
 
 ### Make /cache writable
 Make sure that the /cache folder is writable.
