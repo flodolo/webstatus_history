@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('Europe/Rome');
 
-$requested_locale = isset($_REQUEST['locale']) ? $_REQUEST['locale'] : '';
-$requested_product = isset($_REQUEST['product']) ? $_REQUEST['product'] : '';
+$requested_locale = isset($_REQUEST['locale']) ? htmlspecialchars($_REQUEST['locale']) : '';
+$requested_product = isset($_REQUEST['product']) ? htmlspecialchars($_REQUEST['product']) : '';
 $minimal_view = isset($_REQUEST['minimal']) ? true : false;
 
 if ($requested_product == 'all' && $requested_locale == 'all') {
