@@ -11,11 +11,11 @@ def main():
     # Get absolute path of ../db from current script location (not current
     # folder)
     db_folder = os.path.abspath(
-                        os.path.join(
-                            os.path.dirname( __file__ ),
-                            os.pardir, "db"
-                        )
-                    )
+        os.path.join(
+            os.path.dirname(__file__),
+            os.pardir, "db"
+        )
+    )
     db_file = os.path.join(db_folder, "webstatus.db")
 
     # Connect to SQLite database
@@ -27,7 +27,8 @@ def main():
     new_project_id = "zamboni"
     new_project_name = "Marketplace"
 
-    cursor.execute("SELECT * FROM stats WHERE project_id LIKE '%s'" % old_project_filter)
+    cursor.execute("SELECT * FROM stats WHERE project_id LIKE '%s'" %
+                   old_project_filter)
     data = cursor.fetchall()
 
     # Check if there are results from the SELECT
@@ -69,15 +70,18 @@ def main():
         for day in new_data[locale]:
             if new_data[locale][day]["translated"] > 0 and new_data[locale][day]["total"] > 0:
                 row = new_data[locale][day]
-                percentage = round(100 * row["translated"] / float(row["total"]), 2)
+                percentage = round(
+                    100 * row["translated"] / float(row["total"]), 2)
                 new_data[locale][day]["percentage"] = percentage
 
     # Delete rows from the stats table
-    cursor.execute("DELETE FROM stats WHERE project_id LIKE '%s'" % old_project_filter)
+    cursor.execute("DELETE FROM stats WHERE project_id LIKE '%s'" %
+                   old_project_filter)
     print "Deleted rows from stats: %s" % cursor.rowcount
 
     # Delete the project
-    cursor.execute("DELETE FROM projects WHERE project_id LIKE '%s'" % old_project_filter)
+    cursor.execute("DELETE FROM projects WHERE project_id LIKE '%s'" %
+                   old_project_filter)
     print "Deleted rows from projects: %s" % cursor.rowcount
 
     # Insert new rows in stats

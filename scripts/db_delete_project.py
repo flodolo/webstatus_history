@@ -11,11 +11,11 @@ def main():
     # Get absolute path of ../db from current script location (not current
     # folder)
     db_folder = os.path.abspath(
-                        os.path.join(
-                            os.path.dirname( __file__ ),
-                            os.pardir, "db"
-                        )
-                    )
+        os.path.join(
+            os.path.dirname(__file__),
+            os.pardir, "db"
+        )
+    )
     db_file = os.path.join(db_folder, "webstatus.db")
 
     # Connect to SQLite database

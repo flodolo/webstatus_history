@@ -11,11 +11,11 @@ def main():
     # Get absolute path of ../db from current script location (not current
     # folder)
     db_folder = os.path.abspath(
-                        os.path.join(
-                            os.path.dirname( __file__ ),
-                            os.pardir, "db"
-                        )
-                    )
+        os.path.join(
+            os.path.dirname(__file__),
+            os.pardir, "db"
+        )
+    )
     db_file = os.path.join(db_folder, "webstatus.db")
 
     json_url = "https://l10n.mozilla-community.org/~flod/webstatus/web_status.json"
@@ -27,9 +27,9 @@ def main():
         print e
 
     last_update = datetime.strptime(
-                        json_data["metadata"]["creation_date"],
-                        "%Y-%m-%d %H:%M %Z"
-                    )
+        json_data["metadata"]["creation_date"],
+        "%Y-%m-%d %H:%M %Z"
+    )
     day_string = last_update.strftime("%Y%m%d")
     print "Analyzing %s" % day_string
 
@@ -61,7 +61,7 @@ def main():
                     current_project["total"],
                     current_project["translated"],
                     current_project["untranslated"],
-                );
+                )
 
                 cursor.execute(
                     "INSERT INTO stats (day, project_id, locale, fuzzy, \

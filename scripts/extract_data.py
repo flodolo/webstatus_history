@@ -22,11 +22,11 @@ def main():
     # Get absolute path of ../db from current script location (not current
     # folder)
     db_folder = os.path.abspath(
-                        os.path.join(
-                            os.path.dirname( __file__ ),
-                            os.pardir, "db"
-                        )
-                    )
+        os.path.join(
+            os.path.dirname(__file__),
+            os.pardir, "db"
+        )
+    )
     db_file = os.path.join(db_folder, "webstatus.db")
 
     # Connect to SQLite database
@@ -117,7 +117,8 @@ def main():
             for locale in available_locales:
                 project_name = available_projects[args.project_id]
                 if project_name in output_data[day][locale]:
-                    csv_data += str(output_data[day][locale][project_name]) + ","
+                    csv_data += str(output_data[day]
+                                    [locale][project_name]) + ","
                 else:
                     csv_data += "0,"
             print csv_data[:-1]
@@ -129,7 +130,8 @@ def main():
             csv_data = day + ","
             for project in project_names:
                 if project in output_data[day][args.locale]:
-                    csv_data += str(output_data[day][args.locale][project]) + ","
+                    csv_data += str(output_data[day]
+                                    [args.locale][project]) + ","
                 else:
                     # Project didn't exist at the time for this locale
                     csv_data += "0,"
