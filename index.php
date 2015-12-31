@@ -10,6 +10,8 @@ if ($requested_product == 'all' && $requested_locale == 'all') {
     $requested_locale = 'en-US';
 }
 
+$no_selectors = false;
+
 if ($requested_product == '' && $requested_locale == '') {
     // No parameters, fall back to en-US for all products
     $requested_locale = 'en-US';
@@ -20,6 +22,7 @@ if ($requested_product == '' && $requested_locale == '') {
         // One product for all locales
         $requested_locale = 'all';
         $page_title = "Historical Web Status ({$requested_product})";
+        $no_selectors = true;
     } else {
         if ($requested_product == '') {
             // One locale for all products
@@ -32,7 +35,9 @@ if ($requested_product == '' && $requested_locale == '') {
             } elseif ($requested_locale == 'all') {
                 $page_title .= "{$requested_product})";
             } else {
+                // One product, one locale
                 $page_title .= "{$requested_product}, {$requested_locale})";
+                $no_selectors = true;
             }
         }
     }
@@ -50,7 +55,7 @@ if (! $minimal_view) {
     $html_output .= "\t\t<h1>{$page_title}</h1>\n";
 }
 $html_output .= "\t\t<div id='graphdiv'></div>\n";
-if (! $minimal_view) {
+if (! $minimal_view && ! $no_selectors) {
     // First line of the CVS file contains data series names, strip "Date" (first column)
     $csv_content = file($csv_filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $data_series = explode(',', $csv_content[0]);
@@ -103,6 +108,9 @@ $html_output .= "\t</div>\n";
         }
     );
 
+<?php
+if (! $minimal_view && ! $no_selectors):
+?>
     $('.data_filter').change(function() {
         chart.setVisibility(this.id, this.checked);
     });
@@ -122,6 +130,9 @@ $html_output .= "\t</div>\n";
             }
         });
     });
+<?php
+endif;
+?>
     </script>
 </body>
 </html>
