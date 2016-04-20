@@ -6,7 +6,7 @@ cd $MAIN_FOLDER/..
 # Empty cache
 echo "---------------------"
 echo "Clean up cache folder"
-rm -f cache/*.csv
+rm -f web/cache/*.csv
 
 # Update repository
 echo "Update Git repository"

@@ -13,8 +13,8 @@ sqlite3 webstatus.db < table_initialize.sql
 
 Or unzip `archive.zip` (it will create `webstatus.db` with actual historical data).
 
-### Make /cache writable
-Make sure that the /cache folder is writable.
+### Make web/cache writable
+Make sure that the web/cache folder is writable.
 
 ### Updating data
 Set up a cron-job running `scripts/import.py`.

@@ -47,7 +47,7 @@ $temporary_filename = md5("{$requested_locale}_{$requested_product}");
 $csv_filename = "cache/{$temporary_filename}.csv";
 
 if (! file_exists($csv_filename)) {
-    exec("python scripts/extract_data.py {$requested_locale} {$requested_product} > {$csv_filename}");
+    exec("python ../scripts/extract_data.py {$requested_locale} {$requested_product} > {$csv_filename}");
 }
 
 $html_output = "<div class='container'>\n";
@@ -83,7 +83,7 @@ $html_output .= "\t</div>\n";
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" media="all" />
     <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css" type="text/css" media="all" />
     <link rel="stylesheet" href="assets/css/main.css" type="text/css" media="all" />
-    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <script src="assets/js/jquery-1.12.3.min.js"></script>
     <script src="assets/js/dygraph-combined.js"></script>
 </head>
 <body>

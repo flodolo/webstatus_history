@@ -1,2 +1,2 @@
-cache/*.csv
 db/webstatus.db
+web/cache/*.csv
