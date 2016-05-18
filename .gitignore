@@ -1,2 +1,3 @@
 db/webstatus.db
 web/cache/*.csv
+web/cache/web_status.json

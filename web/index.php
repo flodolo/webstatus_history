@@ -5,6 +5,29 @@ $requested_locale = isset($_REQUEST['locale']) ? htmlspecialchars($_REQUEST['loc
 $requested_product = isset($_REQUEST['product']) ? htmlspecialchars($_REQUEST['product']) : '';
 $minimal_view = isset($_REQUEST['minimal']) ? true : false;
 
+/*
+    Read web_status.json from cache if available, otherwise get it from remote
+    and store it locally.
+*/
+$json_cache = 'cache/web_status.json';
+if (! file_exists($json_cache)) {
+    $json_file = file_get_contents('https://l10n.mozilla-community.org/~flod/webstatus/web_status.json');
+    file_put_contents($json_cache, $json_file);
+} else {
+    $json_file = file_get_contents($json_cache);
+}
+$json_data = json_decode($json_file, true);
+
+# Sanitize parameters against a known set of supported locales and products
+$supported_locales = array_keys($json_data['locales']);
+if (! in_array($requested_locale, $supported_locales)) {
+    $requested_locale = 'en-US';
+}
+$supported_products = array_keys($json_data['metadata']['products']);
+if (! in_array($requested_product, $supported_products)) {
+    $requested_product = 'all';
+}
+
 if ($requested_product == 'all' && $requested_locale == 'all') {
     // All locales for all products is not supported, fall back to en-US for all products
     $requested_locale = 'en-US';
