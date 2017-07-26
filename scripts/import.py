@@ -18,7 +18,7 @@ def main():
     )
     db_file = os.path.join(db_folder, 'webstatus.db')
 
-    json_url = 'https://l10n.mozilla-community.org/~flod/webstatus/web_status.json'
+    json_url = 'https://l10n.mozilla-community.org/webstatus/web_status.json'
     try:
         response = urllib2.urlopen(json_url)
         json_data = json.load(response)
