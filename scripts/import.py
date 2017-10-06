@@ -59,14 +59,15 @@ def main():
                     current_project['missing'],
                     current_project['percentage'],
                     current_project['total'],
+                    current_project['total_w'],
                     current_project['translated'],
                     current_project['untranslated'],
                 )
 
                 cursor.execute(
                     'INSERT INTO stats (day, project_id, locale, fuzzy, \
-                     identical, missing, percentage, total, translated, \
-                     untranslated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                     identical, missing, percentage, total, total_w, translated, \
+                     untranslated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     data_record
                 )
                 imported_records += 1

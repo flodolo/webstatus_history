@@ -9,6 +9,7 @@ CREATE TABLE stats (
     missing integer,
     percentage real,
     total integer,
+    total_w integer,
     translated integer,
     untranslated integer
 );
